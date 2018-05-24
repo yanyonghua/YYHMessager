@@ -1,3 +1,7 @@
 
 Web/xTalker/.idea/
 Web/xTalker/build/
+Web/xTalker/.gradle/
+/App/ITalker/.idea/
+/App/ITalker/build/
+/App/ITalker/.gradle/
