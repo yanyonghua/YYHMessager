@@ -5,4 +5,5 @@ package www.yyh.com.common;
  */
 public class Common {
 
+
 }
