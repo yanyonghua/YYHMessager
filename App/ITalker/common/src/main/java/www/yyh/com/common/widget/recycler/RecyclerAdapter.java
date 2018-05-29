@@ -58,7 +58,7 @@ public abstract class RecyclerAdapter<Data>
         //通过子类嘘嘘实现的方法，得到一个ViewHolder
         ViewHolder<Data> holder = onCreataViewHolder(root, viewType);
         //设置View的Tag为ViewHolder，进行双向绑定
-        root.setTag(R.id.tag_recycler_holder);
+        root.setTag(R.id.tag_recycler_holder,holder);
         //设置事件点击
         root.setOnClickListener(this);
         root.setOnLongClickListener(this);
@@ -90,7 +90,7 @@ public abstract class RecyclerAdapter<Data>
         //得到需要绑定的数据
         Data data = mDataList.get(position);
         //触发Holder的绑定方法
-        holder.bind(data);
+        holder.onBind(data);
     }
 
 
@@ -159,14 +159,18 @@ public abstract class RecyclerAdapter<Data>
         notifyDataSetChanged();
     }
 
+
+
+
     @Override
     public void onClick(View v) {
         ViewHolder holder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
         if (this.mListerer != null) {
             //得到ViewHolder对应适配器中的坐标
             int adapterPosition = holder.getAdapterPosition();
+            Data data = mDataList.get(adapterPosition);
             //回调方法
-            this.mListerer.onItemClick(holder, adapterPosition);
+            this.mListerer.onItemClick(holder, data);
         }
     }
 
@@ -190,6 +194,19 @@ public abstract class RecyclerAdapter<Data>
      */
     public void setListener(AdapterListener<Data> adapterListener) {
         this.mListerer = adapterListener;
+    }
+
+    @Override
+    public void update(Data date, ViewHolder<Data> holder) {
+        //得到当前ViewHolder的坐标
+        int pos =holder.getAdapterPosition();
+        if (pos>=0){
+            //进行数据转移和更新
+            mDataList.remove(pos);
+            mDataList.add(pos,date);
+            //通知这个坐标下的数据有更新
+            notifyItemChanged(pos);
+        }
     }
 
     /**
@@ -268,5 +285,20 @@ public abstract class RecyclerAdapter<Data>
      */
     protected abstract int getItemViewType(int position, Data data);
 
+    /**
+     * 对回调接口做一次实现
+     * @param <Data>
+     */
+    public static class AdapterListenerImpl<Data> implements AdapterListener<Data>{
 
+        @Override
+        public void onItemClick(ViewHolder holder, Data data) {
+
+        }
+
+        @Override
+        public void onItemLongClick(ViewHolder holder, Data data) {
+
+        }
+    }
 }

@@ -55,8 +55,7 @@
         validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新
         -->
 
-
-     <!--   <mapping package="net.qiujuer.web.italker.push.bean.db"
+        <mapping package="net.qiujuer.web.italker.push.bean.db"
                  class="net.qiujuer.web.italker.push.bean.db.User"/>
         <mapping package="net.qiujuer.web.italker.push.bean.db"
                  class="net.qiujuer.web.italker.push.bean.db.UserFollow"/>
@@ -73,6 +72,5 @@
                  class="net.qiujuer.web.italker.push.bean.db.PushHistory"/>
         <mapping package="net.qiujuer.web.italker.push.bean.db"
                  class="net.qiujuer.web.italker.push.bean.db.Apply"/>
--->
     </session-factory>
 </hibernate-configuration>
