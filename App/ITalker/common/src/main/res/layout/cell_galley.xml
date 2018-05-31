@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <www.yyh.com.common.widget.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,23 +14,24 @@
         android:layout_height="match_parent" />
 
     <View
-        android:visibility="gone"
         android:id="@+id/view_shade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black_alpha_112" />
+        android:background="@color/black_alpha_112"
+        android:visibility="gone" />
 
     <CheckBox
-        tools:visibility="visible"
-        android:visibility="gone"
         android:id="@+id/cb_selet"
-        android:layout_width="22dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:layout_gravity="end"
         android:button="@drawable/sel_cb_circle"
         android:clickable="false"
         android:drawablePadding="0dp"
         android:enabled="false"
-        android:padding="0dp" />
+        android:padding="0dp"
+        android:visibility="gone"
+        app:buttonTint="@color/cb_gallery"
+        tools:visibility="visible" />
 
 </www.yyh.com.common.widget.SquareLayout>

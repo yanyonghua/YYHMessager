@@ -23,6 +23,7 @@ public abstract class RecyclerAdapter<Data>
         implements View.OnClickListener, View.OnLongClickListener, AdapterCallback<Data> {
     private AdapterListener mListerer;
     private final List<Data> mDataList;
+    private String TAG="RecyclerAdapter";
 
     /**
      * 构造函数模块
@@ -90,7 +91,7 @@ public abstract class RecyclerAdapter<Data>
         //得到需要绑定的数据
         Data data = mDataList.get(position);
         //触发Holder的绑定方法
-        holder.onBind(data);
+        holder.bind(data);
     }
 
 
@@ -244,6 +245,7 @@ public abstract class RecyclerAdapter<Data>
          */
         void bind(Data data) {
             this.mData = data;
+            onBind(data);
         }
 
         /**

@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -29,7 +30,7 @@ import www.yyh.com.common.R;
 import www.yyh.com.common.widget.recycler.RecyclerAdapter;
 
 
-public class GalleyView extends RecyclerView {
+public class GalleryView extends RecyclerView {
 
     private static final int LOADER_ID =0x0100;
 
@@ -41,17 +42,17 @@ public class GalleyView extends RecyclerView {
     private Adapter mAdapter = new Adapter();
     private SelectedChangeListener mListener;
 
-    public GalleyView(Context context) {
+    public GalleryView(Context context) {
         super(context);
         init();
     }
 
-    public GalleyView(Context context, AttributeSet attrs) {
+    public GalleryView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public GalleyView(Context context, AttributeSet attrs, int defStyle) {
+    public GalleryView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -63,7 +64,7 @@ public class GalleyView extends RecyclerView {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, Image image) {
                 //Cell点击操作，如果我们的点击数允许的，那么更新对应Cell的状态
-                //然后更新节目，同理；吐过说不能允许点击（已经达到最大选中数量）那么久不刷新界面
+                //然后更新节目，同理；Toast不能允许点击（已经达到最大选中数量）那么就不刷新界面
                 if (onItemSelectClick(image)){
                     holder.updateData(image);
                 }
@@ -180,7 +181,12 @@ public class GalleyView extends RecyclerView {
         }else
         {
             if (mSelectedImages.size()>=MAX_IMAGE_COUNT){
-                //Toast 一个提示
+                //得到提示
+                String str =getResources().getString(R.string.label_gallery_select_max_size);
+                str=String.format(str,MAX_IMAGE_COUNT);
+                //格式化填充
+               Toast.makeText(getContext(),str,Toast.LENGTH_SHORT).show();
+
                 notifyRefresh=false;
             }else {
                 mSelectedImages.add(image);
@@ -246,6 +252,8 @@ public class GalleyView extends RecyclerView {
 
             return Objects.hash(path);
         }
+
+
     }
 
     /**
@@ -255,7 +263,7 @@ public class GalleyView extends RecyclerView {
 
         @Override
         protected ViewHolder<Image> onCreataViewHolder(android.view.View root, int viewType) {
-            return new GalleyView.ViewHolder(root);
+            return new GalleryView.ViewHolder(root);
         }
 
         @Override
@@ -284,7 +292,7 @@ public class GalleyView extends RecyclerView {
         @Override
         protected void onBind(Image image) {
             Glide.with(getContext()).load(image.path)//加载路径
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)//不适用换成，直接从原图加载
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)//不适用，换成直接从原图加载
                     .centerCrop()//居中剪切
                     .placeholder(R.color.grey_200)//默认颜色
                     .into(mPic);

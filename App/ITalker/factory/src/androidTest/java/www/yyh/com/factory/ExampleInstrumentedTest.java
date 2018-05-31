@@ -1,4 +1,4 @@
-package www.yyh.com.myapplication;
+package www.yyh.com.factory;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
-        // Context of the App under test.
+        // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("www.yyh.com.myapplication", appContext.getPackageName());
+        assertEquals("www.yyh.com.factory.test", appContext.getPackageName());
     }
 }

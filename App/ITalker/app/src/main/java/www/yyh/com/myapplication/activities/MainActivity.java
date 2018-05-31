@@ -1,5 +1,7 @@
-package www.yyh.com.myapplication;
+package www.yyh.com.myapplication.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
@@ -23,13 +25,16 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import www.yyh.com.common.app.Activity;
 import www.yyh.com.common.widget.PortraitView;
+import www.yyh.com.myapplication.R;
 import www.yyh.com.myapplication.frags.main.ActiveFragment;
 import www.yyh.com.myapplication.frags.main.ContactFragment;
 import www.yyh.com.myapplication.frags.main.GroupFragment;
 import www.yyh.com.myapplication.helper.NavHelper;
 
 
-public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener, NavHelper.OnTabChangedListener<Integer> {
+public class MainActivity extends Activity
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+        NavHelper.OnTabChangedListener<Integer> {
 
     @BindView(R.id.appBar)
     View mLayAppbar;
@@ -66,6 +71,13 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         menu.performIdentifierAction(R.id.action_home,0);
     }
 
+    /**
+     * MainActivity显示的入口
+     * @param context 上下文
+     */
+    public static void show(Context context){
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -90,6 +102,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                         this.view.setBackground(resource.getCurrent());
                     }
                 });
+
+
     }
 
     @OnClick(R.id.im_search)
@@ -99,7 +113,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.btn_action)
     void onActionClick(){
-
+        AccountActivity.show(this);
     }
 
     /**
