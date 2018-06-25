@@ -1,24 +1,30 @@
-package www.yyh.com.myapplication.frags.account;
+package www.yyh.com.myapplication.frags.user;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
+
+import net.qiujuer.genius.ui.widget.Button;
+import net.qiujuer.genius.ui.widget.Loading;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import www.yyh.com.common.app.Application;
-import www.yyh.com.common.app.Fragment;
+import www.yyh.com.common.app.PresenterFragment;
 import www.yyh.com.common.widget.PortraitView;
-import www.yyh.com.factory.Factory;
-import www.yyh.com.factory.net.UploadHelper;
+import www.yyh.com.factory.presenter.user.UpdateInfoContract;
+import www.yyh.com.factory.presenter.user.UpdateInfoPresenter;
 import www.yyh.com.myapplication.R;
+import www.yyh.com.myapplication.activities.MainActivity;
 import www.yyh.com.myapplication.frags.media.GalleryFragment;
 
 import static android.app.Activity.RESULT_OK;
@@ -26,11 +32,24 @@ import static android.app.Activity.RESULT_OK;
 /**
  * 用户更新信息界面
  */
-public class UpdateInfoFragment extends Fragment {
+public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Presenter>
+        implements  UpdateInfoContract.View {
     private final String TAG = UpdateInfoFragment.class.getName();
     @BindView(R.id.im_portrait)
     PortraitView mPortrait;
+    @BindView(R.id.im_sex)
+    ImageView mSex;
 
+    @BindView(R.id.edit_desc)
+    EditText mDesc;
+    @BindView(R.id.loading)
+    Loading mLoading;
+    @BindView(R.id.btn_submit)
+    Button mSubmit;
+
+    //头像的本地路径
+    private String mPortraitPath;
+    private boolean isMan=true;
     public UpdateInfoFragment() {
         // Required empty public constructor
     }
@@ -86,27 +105,74 @@ public class UpdateInfoFragment extends Fragment {
                 loadPortrait(resultUri);
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
+           Application.showToast(R.string.data_rsp_error_unknown);
         }
     }
 
+    /**
+     * 上传头像
+     * @param uri
+     */
     private void loadPortrait(Uri uri){
+        //得到头像地址
+        mPortraitPath=uri.getPath();
         Glide.with(this)
                 .load(uri)
                 .asBitmap()
                 .centerCrop()
                 .into(mPortrait);
+    }
 
-        //拿到本地文件的地址
-        final String localPath = uri.getPath();
-        Log.e(TAG, "loadPortrait: "+localPath );
+    @Override
+    public void showError(int str) {
+        super.showError(str);
+        //当需要显示错误的时候触发，一定是结束了
+        mLoading.stop();
+        //让控件可以输入
+        mDesc.setEnabled(true);
+        mPortrait.setEnabled(true);
+        mSex.setEnabled(true);
+        //提交按钮可以继续点击
+        mSubmit.setEnabled(true);
+    }
 
-        Factory.runOnAsync(new Runnable() {
-            @Override
-            public void run() {
-              String url=  UploadHelper.uploadPortrait(localPath);
-                Log.e(TAG, "run: "+url );
-            }
-        });
+    @Override
+    public void showLoading() {
+        super.showLoading();
+        //正在进行时，正在进行注册，界面不可操作
+        mLoading.start();
+        //让控件可以输入
+        mDesc.setEnabled(false);
+        mPortrait.setEnabled(false);
+        mSex.setEnabled(false);
+        //提交按钮可以继续点击
+        mSubmit.setEnabled(false);
+    }
+
+    @Override
+    protected UpdateInfoContract.Presenter initPresenter() {
+        return new UpdateInfoPresenter(this);
+    }
+
+    @Override
+    public void updateSucceed() {
+        MainActivity.show(getContext());
+        getActivity().finish();
+    }
+
+    @OnClick(R.id.btn_submit)
+    void onSubmitClick(){
+        String desc =mDesc.getText().toString();
+        mPresenter.update(mPortraitPath,desc,isMan);
+    }
+    @OnClick(R.id.im_sex)
+    void onSexClick(){
+       //性别图片点击的时候触发
+        isMan=!isMan;
+        Drawable drawable =getResources().getDrawable(isMan?
+                R.drawable.ic_sex_man:R.drawable.ic_sex_woman);
+        mSex.setImageDrawable(drawable);
+        //设置背景的层级切换背景
+        mSex.getBackground().setLevel(isMan?0:1);
     }
 }

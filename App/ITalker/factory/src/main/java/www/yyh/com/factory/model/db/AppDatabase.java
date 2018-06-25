@@ -1,0 +1,12 @@
+package www.yyh.com.factory.model.db;
+
+import com.raizlabs.android.dbflow.annotation.Database;
+
+/**
+ * Created by 56357 on 2018/6/6
+ */
+@Database(name = AppDatabase.NAME,version = AppDatabase.VERSION)
+public class AppDatabase {
+    public static final String NAME ="AppDatabase";
+    public static final int VERSION=2;
+}

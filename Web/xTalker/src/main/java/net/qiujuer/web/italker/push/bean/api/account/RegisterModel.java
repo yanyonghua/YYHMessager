@@ -1,5 +1,6 @@
 package net.qiujuer.web.italker.push.bean.api.account;
 
+import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -7,18 +8,20 @@ import com.google.gson.annotations.Expose;
  */
 public class RegisterModel {
     @Expose
-    private String accout;
+    private String account;
     @Expose
     private String password;
     @Expose
     private String name;
+    @Expose
+    private String pushId;
 
-    public String getAccout() {
-        return accout;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAccout(String accout) {
-        this.accout = accout;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getPassword() {
@@ -35,5 +38,27 @@ public class RegisterModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
+
+
+
+    /**
+     * 校验
+     * @param model
+     * @return
+     */
+    public static  boolean check(RegisterModel model){
+        return  model!=null
+                &&!Strings.isNullOrEmpty(model.account)
+                &&!Strings.isNullOrEmpty(model.name)
+                &&!Strings.isNullOrEmpty(model.password);
     }
 }

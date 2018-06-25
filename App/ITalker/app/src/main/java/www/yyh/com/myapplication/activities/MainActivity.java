@@ -2,6 +2,7 @@ package www.yyh.com.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import www.yyh.com.common.app.Activity;
 import www.yyh.com.common.widget.PortraitView;
+import www.yyh.com.factory.persistence.Account;
 import www.yyh.com.myapplication.R;
 import www.yyh.com.myapplication.frags.main.ActiveFragment;
 import www.yyh.com.myapplication.frags.main.ContactFragment;
@@ -69,6 +71,7 @@ public class MainActivity extends Activity
         Menu menu = mNavigation.getMenu();
         //触发首次选中Home
         menu.performIdentifierAction(R.id.action_home,0);
+        mPortrait.setup(Glide.with(this),Account.getUser());
     }
 
     /**
@@ -78,6 +81,18 @@ public class MainActivity extends Activity
     public static void show(Context context){
         context.startActivity(new Intent(context,MainActivity.class));
     }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        if (Account.isComplete()){//如果没有完善则跳转到UserActivity，完善了就走正常流程
+            return super.initArgs(bundle);
+        }else {
+            UserActivity.show(this);
+            return false;
+        }
+
+    }
+
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -106,14 +121,30 @@ public class MainActivity extends Activity
 
     }
 
+
     @OnClick(R.id.im_search)
     void onSearchMenuClick(){
-
+        //在群的界面的时候，点击顶部的搜索就进入群搜索界面
+        // 其他都为人搜索界面
+        int type =Objects.equals(mNavHelper.getCurrentTab().extra,R.string.title_group)?
+                SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
+        SearchActivity.show(this,type);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick(){
-        AccountActivity.show(this);
+        //浮动按钮点击时，判断当前界面是群还是联系人界面
+        //如果是群 ，则打开群创建的界面
+        if (Objects.equals(mNavHelper.getCurrentTab().extra,R.string.title_group)){
+            // TODO 打开创建界面
+        }else{
+            SearchActivity.show(this,SearchActivity.TYPE_USER);
+        }
+    }
+
+    @OnClick(R.id.im_portrait)
+    void onPortraitClick(){
+        PersonalActivity.show(this,Account.getUserId());
     }
 
     /**
@@ -123,7 +154,7 @@ public class MainActivity extends Activity
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //转接事件流到工具类中
+        //转接事件留到工具类中
         return mNavHelper.performClickMenu(item.getItemId());
     }
 

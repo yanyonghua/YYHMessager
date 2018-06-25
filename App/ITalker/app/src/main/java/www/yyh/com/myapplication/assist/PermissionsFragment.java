@@ -19,7 +19,10 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import www.yyh.com.common.app.Application;
+import www.yyh.com.factory.persistence.Account;
 import www.yyh.com.myapplication.R;
+import www.yyh.com.myapplication.activities.AccountActivity;
+import www.yyh.com.myapplication.activities.MainActivity;
 import www.yyh.com.myapplication.frags.media.GalleryFragment;
 
 /**
@@ -176,9 +179,13 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.RECORD_AUDIO
         };
         if(EasyPermissions.hasPermissions(getContext(),perms)){
-            Application.showTost(R.string.label_permission_ok);
+            Application.showToast(R.string.label_permission_ok);
             //Fragement中调用getView得到根布局，前提是在onCreateview调用之后
             refreshState(getView());
+            if (Account.isLogin()){
+                MainActivity.show(getContext());
+            }  else  AccountActivity.show(getContext());
+            getActivity(). finish();
         }else {
             EasyPermissions.requestPermissions(this,
                     getString(R.string.title_assist_permissions),RC,perms);

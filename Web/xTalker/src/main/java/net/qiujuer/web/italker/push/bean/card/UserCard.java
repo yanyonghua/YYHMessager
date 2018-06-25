@@ -1,6 +1,7 @@
 package net.qiujuer.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
+import net.qiujuer.web.italker.push.bean.db.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,6 +31,8 @@ public class UserCard {
     @Expose
     private int sex =0;
 
+
+
     @Expose
     //用户关注的人的数量，
     private int follows;
@@ -38,10 +41,27 @@ public class UserCard {
     private int following;
     @Expose
     //我与当前User的关系状态，是否关系了这个人
-    private int isFollow;
+    private boolean isFollow;
     @Expose
     //用户信息最后的更新时间
-    private LocalDateTime modifyAt =LocalDateTime.now();
+    private LocalDateTime modifyAt ;
+
+    public UserCard(final User user){
+        this(user,false);
+    }
+    public UserCard(final User user ,boolean isFollow){
+        this.isFollow =isFollow;
+        this.id=user.getId();
+        this.name=user.getName();
+        this.phone=user.getPhone();
+        this.portrait=user.getPortrait();
+        this.description=user.getDescription();
+        this.sex=user.getSex();
+        this.modifyAt=user.getUpdateAt();
+
+        // TODO 得到关注人和粉丝的数量
+        //user.getFollows().size()因为懒加载会报错
+    }
 
     public String getId() {
         return id;
@@ -107,12 +127,12 @@ public class UserCard {
         this.following = following;
     }
 
-    public int getIsFollow() {
+    public boolean isFollow() {
         return isFollow;
     }
 
-    public void setIsFollow(int isFollow) {
-        this.isFollow = isFollow;
+    public void setFollow(boolean follow) {
+        isFollow = follow;
     }
 
     public LocalDateTime getModifyAt() {

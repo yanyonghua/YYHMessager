@@ -30,6 +30,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
     implementation "com.android.support:design:$rootProject.ext.supportVersion"
+    implementation "com.android.support:support-annotations:$rootProject.ext.supportVersion"
     //UI和资源框架
     implementation "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
     implementation "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
@@ -45,4 +46,5 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
     implementation "net.qiujuer.genius:kit-handler:$rootProject.ext.geniusVersion"
     implementation project(':lang')
+
 }

@@ -11,15 +11,18 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import www.yyh.com.common.widget.convention.PlaceHolderView;
 
 /**
  * Created by 56357 on 2018/5/24
  */
 public abstract class Fragment extends android.support.v4.app.Fragment {
+    protected PlaceHolderView mPlaceHolderView;
     protected View mRoot;
     protected Unbinder mRootUnbinder;
     private static final String TAG ="Fragment";
-
+    //是否是第一次初始化數據
+    protected boolean mIsFirstInitData=true;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -62,9 +65,14 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (mIsFirstInitData){
+            //第一次才会出发
+            mIsFirstInitData=false;
+            //触发
+            onFirstInit();
+        }
         //当View创建完成后初始化数据
         initData();
-        Log.e(TAG, "onViewCreated: " );
     }
 
     /**
@@ -89,6 +97,13 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     }
 
     /**
+     * 首次初始化
+     */
+    protected void onFirstInit() {
+
+    }
+
+    /**
      * 返回按键触发调用
      *
      * @return 返回True 代表我已经处理返回逻辑，Activity不用Finish
@@ -97,4 +112,13 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     public boolean onBackPressed() {
         return false;
     }
+
+    /**
+     * 设置占位布局
+     * @param placeHolderView
+     */
+    public void  setPlaceHolderView(PlaceHolderView placeHolderView){
+        this.mPlaceHolderView=placeHolderView;
+    }
+
 }

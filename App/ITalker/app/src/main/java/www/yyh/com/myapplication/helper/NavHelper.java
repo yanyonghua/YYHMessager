@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.SparseArray;
 import android.support.v4.app.Fragment;
 /**
- * 解决对F让门他的调度与重用问题
+ * 解决对Fragment的调度与重用问题
  * 达到最优的Fragment切换
  * Created by 56357 on 2018/5/26
  */
@@ -137,13 +137,13 @@ public class NavHelper<T> {
             this.clx = clx;
             this.extra = extra;
         }
-        //Fragme那天对应的Class信息
+        //Fragmet对应的Class信息
         public Class<?> clx;
         //额外的字段，用户自己设定需要使用
         public T extra;
         //内部缓存的对应的Fragment
         //Private 私有的 外部无法使用
-         Fragment fragment;
+        private Fragment fragment;
     }
 
     /**

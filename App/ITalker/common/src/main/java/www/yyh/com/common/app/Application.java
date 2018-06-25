@@ -63,7 +63,7 @@ public class Application extends android.app.Application {
      * 显示一个Toast
      * @param msg 字符串
      */
-    public static void showTost(final  String msg){
+    public static void showToast(final  String msg){
         //Toast 只能在主线程中显示，需要进行线程转换
         //保证一定是主线程进行的show操作
         Run.onUiAsync(new Action() {
@@ -78,9 +78,9 @@ public class Application extends android.app.Application {
      * 显示一个Toast
      * @param msgId 字符串资源
      */
-    public static void showTost(@StringRes int msgId){
+    public static void showToast(@StringRes int msgId){
 
-        showTost(instance.getString(msgId));
+        showToast(instance.getString(msgId));
 
     }
 

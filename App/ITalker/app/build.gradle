@@ -9,6 +9,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //个推相关参数
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "mJar8UxBc5AXBGi2NnfWe4",
+                GETUI_APP_KEY   : "uEXr3Qo6WoAUb1gU9AGoM5",
+                GETUI_APP_SECRET: "waNZMOuq108n1hSfjqoCpA",
+                PACKAGE_NAME    : applicationId
+        ]
     }
     buildTypes {
         release {
@@ -31,13 +38,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // butterknife依赖注入
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
+    //图片剪切框架
     implementation "com.github.yalantis:ucrop:$rootProject.ext.ucropVersion"
+    //Android权限
     implementation "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
+    // 个推
+    implementation "com.getui:sdk:$rootProject.ext.getuiVersion"
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    implementation project(':factory')
-    compile project(path: ':common')
+    api project(':factory')
+    api project(path: ':common')
+    //数据库框架
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${rootProject.ext.dbflowVersion}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${rootProject.ext.dbflowVersion}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${rootProject.ext.dbflowVersion}"
 }
