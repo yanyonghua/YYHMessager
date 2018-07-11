@@ -6,7 +6,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
 public class BaseService {
-    //添加一个上下文注解，该朱姐会给securityContext
+    //添加一个上下文注解，该注解会给securityContext
     // 具体的职位我们拦截器中所返回的SecurityContext
     @Context
     protected SecurityContext securityContext;

@@ -9,7 +9,8 @@ import www.yyh.com.common.R;
 /**
  * Created by 56357 on 2018/6/11
  */
-public abstract class ToolbarActivity extends Activity {
+public abstract class ToolbarActivity extends Activity
+{
     protected Toolbar mToolbar;
 
     @Override

@@ -1,4 +1,4 @@
-package www.yyh.com.utils;
+package www.yyh.com.factory.utils;
 
 import android.support.v7.util.DiffUtil;
 

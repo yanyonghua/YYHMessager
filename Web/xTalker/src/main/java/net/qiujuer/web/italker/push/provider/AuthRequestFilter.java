@@ -23,6 +23,7 @@ public class AuthRequestFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         //检查是否是登录注册接口
         String relationPath =((ContainerRequest)requestContext).getPath(false);
+        //如果是登录注册的话说明还没有用户
         if (relationPath.startsWith("account/login")
                 ||relationPath.startsWith("account/register")){
             return;
@@ -73,7 +74,7 @@ public class AuthRequestFilter implements ContainerRequestFilter {
                 .entity(model)
                 .build();
         //停止一个请求的继续下发，调用该方法后之后返回请求
-        //不会走到Service中区
+        //不会走到Service中去
         requestContext.abortWith(response);
 
     }

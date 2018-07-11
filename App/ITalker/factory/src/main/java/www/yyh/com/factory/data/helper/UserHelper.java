@@ -16,8 +16,10 @@ import www.yyh.com.factory.model.api.user.UserUpdateModel;
 import www.yyh.com.factory.model.card.UserCard;
 import www.yyh.com.factory.model.db.User;
 import www.yyh.com.factory.model.db.User_Table;
+import www.yyh.com.factory.model.db.view.UserSampleModel;
 import www.yyh.com.factory.net.Network;
 import www.yyh.com.factory.net.RemoteService;
+import www.yyh.com.factory.persistence.Account;
 
 /**
  *
@@ -57,7 +59,7 @@ public class UserHelper {
     }
 
     //更新用户信息操作，异步的
-    public static Call search(String name, final DataSource.Callback<List<UserCard>> cardCallback){
+    public static Call searchFirstOfLocal(String name, final DataSource.Callback<List<UserCard>> cardCallback){
         RemoteService service = Network.remote();
         //得到一个call
         Call<RspModel<List<UserCard>>> call = service.userSearch(name);
@@ -179,7 +181,7 @@ public class UserHelper {
      * @param id
      * @return
      */
-    public static User search(String id){
+    public static User searchFirstOfLocal(String id){
         User user=findFromLocal(id);
         if (user==null){
             return findFromNet(id);
@@ -199,4 +201,40 @@ public class UserHelper {
         }
         return user;
     }
+
+    /**
+     * 获取联系人
+     */
+    public static List<User> getContact(){
+        return SQLite.select()
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))//是否是订阅用户
+                .and(User_Table.id.notEq(Account.getUserId()))//通过非自己的id
+                .orderBy(User_Table.name,true)//通过名字排序
+                .limit(100)//限制100条数据
+                .queryList();
+
+    }
+    //获取一个联系人列表
+    //但是是一个简单的数据的
+    public static List<UserSampleModel> getSampleContact(){
+        return SQLite.select(User_Table.id.withTable().as("id"),User_Table.name.withTable().as("name"),User_Table.portrait.withTable().as("portrait"))
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))//是否是订阅用户
+                .and(User_Table.id.notEq(Account.getUserId()))//通过非自己的id
+                .orderBy(User_Table.name,true)//通过名字排序
+                .limit(100)//限制100条数据
+                .queryCustomList(UserSampleModel.class);
+
+    }
+
+
+
+
+
+
+
+
+
+
 }

@@ -61,8 +61,26 @@
             android:label="@string/title_search"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
-        <activity android:name=".activities.MessageActivity" />
-        <activity android:name=".activities.PersonalActivity"></activity>
+        <activity
+            android:name=".activities.MessageActivity"
+            android:label="@string/title_activity_message"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.Message" />
+        <activity
+            android:name=".activities.PersonalActivity"
+            android:label="@string/title_activity_personal"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar" />
+        <activity
+            android:name=".activities.GroupCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Group.Create" />
+        <activity
+            android:name=".activities.GroupMemberActivity"
+            android:label="@string/title_member_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TransStatusBar"></activity>
     </application>
 
 </manifest>

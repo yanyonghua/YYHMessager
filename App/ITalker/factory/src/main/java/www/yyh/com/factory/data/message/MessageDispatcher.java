@@ -95,11 +95,11 @@ public class MessageDispatcher implements MessageCenter {
                     message.setStatus(card.getStatus());
                 } else {
                     //没找到本地消息，初次在数据库存储
-                    User sender = UserHelper.search(card.getSenderId());
+                    User sender = UserHelper.searchFirstOfLocal(card.getSenderId());
                     User receiver = null;
                     Group group = null;
                     if (!TextUtils.isEmpty(card.getReceiverId())) {
-                        receiver = UserHelper.search(card.getReceiverId());
+                        receiver = UserHelper.searchFirstOfLocal(card.getReceiverId());
                     } else if (!TextUtils.isEmpty(card.getGroupId())) {
                         group = GroupHelper.findFromLocal(card.getGroupId());
                     }

@@ -34,7 +34,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
     RecyclerView mRecycle;
 
     //适配器，user直接从数据库查询
-    private RecyclerAdapter mRecycleAdapter;
+    private RecyclerAdapter<User> mRecycleAdapter;
 
     public ContactFragment() {
         // Required empty public constructor

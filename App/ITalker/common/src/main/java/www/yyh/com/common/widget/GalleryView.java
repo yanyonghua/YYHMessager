@@ -1,6 +1,7 @@
 package www.yyh.com.common.widget;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -170,6 +171,7 @@ public class GalleryView extends RecyclerView {
      * @param image Image
      * @return True ，代表我进行数据更改，你需要刷新；反之不刷新
      */
+    @SuppressLint("StringFormatMatches")
     private boolean onItemSelectClick(Image image){
 
         boolean notifyRefresh;
@@ -271,8 +273,6 @@ public class GalleryView extends RecyclerView {
 
             return R.layout.cell_galley;
         }
-
-
     }
 
     /**

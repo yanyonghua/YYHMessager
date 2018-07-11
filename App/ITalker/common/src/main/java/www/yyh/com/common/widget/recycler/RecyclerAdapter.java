@@ -32,10 +32,12 @@ public abstract class RecyclerAdapter<Data>
         this(new ArrayList<Data>(), null);
     }
 
+    //传入一个点击事件监听
     public RecyclerAdapter(AdapterListener adapterListener) {
         this(new ArrayList<Data>(), adapterListener);
     }
 
+    //传入一个数据列表，和一个时间监听
     public RecyclerAdapter(List<Data> dataList, AdapterListener adapterListener) {
         this.mDataList = dataList;
         this.mListerer = adapterListener;
@@ -122,7 +124,7 @@ public abstract class RecyclerAdapter<Data>
     }
 
     /**
-     * 插入一堆数据，并通知这段集合更新
+     * 插入一堆数据，并通知这段数组更新
      *
      * @param dataList Data
      */
@@ -137,7 +139,7 @@ public abstract class RecyclerAdapter<Data>
     /**
      * 插入一堆数据，并通知这段集合更新
      *
-     * @param dataList Data
+     * @param dataList Collection<Data>
      */
     public void add(Collection<Data> dataList) {
         if (dataList != null && dataList.size() > 0) {
@@ -205,6 +207,11 @@ public abstract class RecyclerAdapter<Data>
         this.mListerer = adapterListener;
     }
 
+    /**
+     * recycleAdapter自己内部的更新
+     * @param date 数据
+     * @param holder ViewHolder<Data>
+     */
     @Override
     public void update(Data date, ViewHolder<Data> holder) {
         //得到当前ViewHolder的坐标
@@ -220,7 +227,7 @@ public abstract class RecyclerAdapter<Data>
 
     /**
      * 我们的自定义监听器
-     *
+     *点击事件
      * @param <Data> 泛型
      */
     public interface AdapterListener<Data> {
@@ -265,7 +272,7 @@ public abstract class RecyclerAdapter<Data>
 
         /**
          * Holder自己对自己的Data进行更新操作
-         *
+         * 单个刷新
          * @param data
          */
         public void updateData(Data data) {

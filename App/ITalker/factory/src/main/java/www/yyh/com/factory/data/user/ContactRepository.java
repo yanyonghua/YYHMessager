@@ -14,7 +14,8 @@ import www.yyh.com.factory.persistence.Account;
  * 联系人仓库
  * Created by 56357 on 2018/6/23
  */
-public class ContactRepository extends BaseDbRepository<User> implements ContactDataSource{
+public class ContactRepository extends BaseDbRepository<User>
+        implements ContactDataSource{
 
     @Override
     public void load(DataSource.SucceedCallback<List<User>> callback) {

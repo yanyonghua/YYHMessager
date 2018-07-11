@@ -21,12 +21,35 @@ public class Network {
 
     private static Network instance;
     private Retrofit retrofit;
+    private OkHttpClient client;
 
     static {
         instance=new Network();
     }
 
     private Network(){}
+
+    public static OkHttpClient getClient(){
+        if (instance.client!=null)
+            return instance.client;
+
+        instance.client =new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original =chain.request();
+                        Request.Builder builder =original.newBuilder();
+                        if (!TextUtils.isEmpty(Account.getToken()))
+                            builder.addHeader("token",Account.getToken());
+                        builder.addHeader("Content-Type","application/json");
+                        Request newRequest = builder.build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+        return instance.client;
+
+    }
     //构建一个Retrofit
     public static Retrofit getRetrofit(){
         if (instance.retrofit!=null){
@@ -34,21 +57,7 @@ public class Network {
         }
 
         //得到一个OK client
-        OkHttpClient client =new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request original =chain.request();
-                        Request.Builder builder =original.newBuilder();
-                        if (!TextUtils.isEmpty(Account.getToken()))
-                        builder.addHeader("token",Account.getToken());
-                        builder.addHeader("Content-Type","application/json");
-                        Request newRequest = builder.build();
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
-
+        OkHttpClient client =getClient();
         Retrofit.Builder builder =new Retrofit.Builder();
 
         instance.retrofit= builder.baseUrl(Common.Constance.API_URL)

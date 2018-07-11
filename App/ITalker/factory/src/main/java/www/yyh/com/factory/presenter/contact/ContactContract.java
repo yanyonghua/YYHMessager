@@ -7,6 +7,7 @@ import www.yyh.com.factory.presenter.BaseContract;
  * Created by 56357 on 2018/6/13
  */
 public interface ContactContract {
+    //什么都不要额外定义，开始就是调用start即可
     interface Presenter extends BaseContract.Presenter{
 
     }

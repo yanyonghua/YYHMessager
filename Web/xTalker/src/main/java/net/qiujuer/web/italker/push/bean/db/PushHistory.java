@@ -26,7 +26,7 @@ public class PushHistory {
     @Column(updatable = false,nullable = false)
     private String id;
 
-    //推送的具体尸体存储的都是JSON字符串
+    //推送的具体实体存储的都是JSON字符串
     //BLOB是比TEXT更多的一个大字段类型
     @Lob
     @Column(nullable = false,columnDefinition = "BLOB")
@@ -49,10 +49,10 @@ public class PushHistory {
     //发送者可为空，因为可能是系统消息
     //一个接发送者可以发送很多推送消息
     //fetch = FetchType.EAGER：加载一条推送消息的时候之间加载用户信息
-    @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "senderId")//默认是：sender_id
     private User sender;
-    @Column(nullable = false,updatable = false,insertable = false)
+    @Column(updatable = false,insertable = false)
     private String senderId;
 
     //接收者当前状态下的设备推送ID
@@ -161,4 +161,5 @@ public class PushHistory {
     public void setArrivalAt(LocalDateTime arrivalAt) {
         this.arrivalAt = arrivalAt;
     }
+
 }

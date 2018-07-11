@@ -7,6 +7,7 @@ import net.qiujuer.web.italker.push.bean.api.base.ResponseModel;
 import net.qiujuer.web.italker.push.bean.api.user.UpdateInfoModel;
 import net.qiujuer.web.italker.push.bean.card.UserCard;
 import net.qiujuer.web.italker.push.bean.db.User;
+import net.qiujuer.web.italker.push.factory.PushFactory;
 import net.qiujuer.web.italker.push.factory.UserFactory;
 import net.qiujuer.web.italker.push.utils.PushDispatcher;
 
@@ -75,7 +76,7 @@ public class UserService extends BaseService {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<UserCard> follow(@PathParam("followId") String followId){
         User self = getSelf();
-        //不能管住我自己
+        //不能关注我自己
         if (self.getId().equalsIgnoreCase(followId)||Strings.isNullOrEmpty(followId)){
             //返回参数异常
             return ResponseModel.buildParameterError();
@@ -92,8 +93,9 @@ public class UserService extends BaseService {
             //关注失败，返回服务器异常
             return ResponseModel.buildServiceError();
         }
-        // TODO 通知我关注的人我关注了他
-
+        //  通知我关注的人我关注了他
+        //给他发送我的信息
+        PushFactory.pushFollow(followUser,new UserCard(self));
 
         //返回关注人的信息
         return ResponseModel.buildOk(new UserCard(followUser,true));

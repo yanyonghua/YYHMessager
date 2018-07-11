@@ -11,10 +11,10 @@ import www.yyh.com.factory.data.user.ContactDataSource;
 import www.yyh.com.factory.data.user.ContactRepository;
 import www.yyh.com.factory.model.db.User;
 import www.yyh.com.factory.presenter.BaseSourcePresenter;
-import www.yyh.com.utils.DiffUiDataCallback;
+import www.yyh.com.factory.utils.DiffUiDataCallback;
 
 /**
- * 联系人的Presenter的实现
+ * 联系人的Presenter的实现，
  * Created by 56357 on 2018/6/13
  */
 public class ContactPresenter extends BaseSourcePresenter<User,User,ContactDataSource,ContactContract.View>

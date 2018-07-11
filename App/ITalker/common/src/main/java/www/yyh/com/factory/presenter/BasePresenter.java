@@ -15,7 +15,7 @@ public class BasePresenter<T extends BaseContract.View>
     }
 
     /**
-     * 给子类使用获取View的操作
+     * 给子类使用获取View的操作 setview顺便把Presenter 的实体set到View里面去了
      * @param mView
      */
     public void setView(T mView) {

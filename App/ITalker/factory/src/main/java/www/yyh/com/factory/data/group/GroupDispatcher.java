@@ -60,7 +60,7 @@ public class GroupDispatcher implements GroupCenter {
             List<GroupMember> members = new ArrayList<>();
             for (GroupMemberCard model : cards) {
                 //成员对应的人的信息
-                User user = UserHelper.search(model.getUserId());
+                User user = UserHelper.searchFirstOfLocal(model.getUserId());
                 //成员对应群的信息
                 Group group = GroupHelper.find(model.getGroupId());
                 if (user != null && group != null) {
@@ -87,7 +87,7 @@ public class GroupDispatcher implements GroupCenter {
         public void run() {
             List<Group> groups = new ArrayList<>();
             for (GroupCard card : cards) {
-                User owner = UserHelper.search(card.getOwnerId());
+                User owner = UserHelper.searchFirstOfLocal(card.getOwnerId());
                 if (owner != null) {
                     Group group = card.build(owner);
                     groups.add(group);

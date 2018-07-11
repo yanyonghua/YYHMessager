@@ -133,7 +133,7 @@ public class DbHelper{
             public void execute(DatabaseWrapper databaseWrapper) {
                 ModelAdapter<Model> adapter = FlowManager.getModelAdapter(tClass);
                 //保存操作
-                adapter.saveAll(Arrays.asList(models));
+                adapter.deleteAll(Arrays.asList(models));
                 //唤起通知
                 instance.notifyDelete(tClass,models);
             }
@@ -266,8 +266,12 @@ public class DbHelper{
      */
     public interface ChangedListener<Data extends BaseModel>{
 
+        //保存通知
         void onDataSave(Data... list);
+        //删除通知
          void onDataDelete(Data... list);
     }
+
+
 
 }

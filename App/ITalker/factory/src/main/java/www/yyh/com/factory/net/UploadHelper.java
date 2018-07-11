@@ -22,7 +22,7 @@ import www.yyh.com.utils.HashUtil;
  */
 public class UploadHelper {
     //与你们的存储区域有关系
-    private static final String ENDPOIT= "http://oss-cn-shenzhen.aliyuncs.com";
+    public static final String ENDPOIT= "http://oss-cn-shenzhen.aliyuncs.com";
 
 
     //

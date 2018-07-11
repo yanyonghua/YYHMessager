@@ -47,5 +47,8 @@ ext{
 
     getuiVersion = '2.9.3.0'
     dbflowVersion = "4.0.0-beta7"
+    // 空气面板
+    airpanelVersion = "1.1.0"
+    lameVersion = "1.0.0"
 
 }

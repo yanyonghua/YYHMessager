@@ -3,24 +3,103 @@ package www.yyh.com.myapplication.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
+import www.yyh.com.common.app.Activity;
+import www.yyh.com.common.app.Fragment;
 import www.yyh.com.factory.model.Author;
+import www.yyh.com.factory.model.db.Group;
+import www.yyh.com.factory.model.db.Message;
+import www.yyh.com.factory.model.db.Session;
 import www.yyh.com.myapplication.R;
+import www.yyh.com.myapplication.frags.message.ChatGroupFragment;
+import www.yyh.com.myapplication.frags.message.ChatUserFragment;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends Activity {
 
+    // 接收者Id ，可以是群，也可以是人的Id
+    public static final String KEY_RECEIVER_ID ="KEY_RECEIVER_ID";
+    // 是否是群
+    private static final String KEY_RECEIVER_IS_GROUP ="KEY_RECEIVER_IS_GROUP";
+
+    private String mReceiverId;
+    private boolean mIsGroup;
     /**
      * 显示人的聊天界面
      * @param context 上下文
      * @param author 人的信息
      */
     public static void show(Context context, Author author){
-        context.startActivity(new Intent(context,MessageActivity.class));
+        if (author==null||context==null|| TextUtils.isEmpty(author.getId()))
+            return;
+        Intent intent =new Intent(context,MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID,author.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP,false);
+        context.startActivity(intent);
     }
+    /**
+     * 发起群聊
+     * @param context 上下文
+     * @param group 群的model
+     */
+    public static void show(Context context, Group group){
+
+        if (group==null||context==null|| TextUtils.isEmpty(group.getId()))
+            return;
+        Intent intent =new Intent(context,MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID,group.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP,true);
+
+        context.startActivity(intent);
+    }
+
+    /**
+     * 通过Session 发起聊天
+     * @param context
+     * @param session
+     */
+    public static void show(Context context, Session session) {
+        if (session==null||context==null|| TextUtils.isEmpty(session.getId()))
+            return;
+        Intent intent =new Intent(context,MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID,session.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP,session.getReceiverType()== Message.RECEIVER_TYPE_GROUP);
+
+        context.startActivity(intent);
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
+    protected int getContentLayout() {
+        return R.layout.activity_message;
     }
+    //获取参数
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        mReceiverId=bundle.getString(KEY_RECEIVER_ID);
+        mIsGroup=bundle.getBoolean(KEY_RECEIVER_IS_GROUP);
+        return !TextUtils.isEmpty(mReceiverId);
+    }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
+        setTitle("");
+        Fragment fragment;
+        if (mIsGroup){
+                fragment=new ChatGroupFragment();
+        }else {
+            fragment=new ChatUserFragment();
+        }
+        //从Activity传递参数到fragment
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_RECEIVER_ID,mReceiverId);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().
+                beginTransaction().
+                add(R.id.lay_container,fragment)
+                .commit();
+    }
+
+
 }

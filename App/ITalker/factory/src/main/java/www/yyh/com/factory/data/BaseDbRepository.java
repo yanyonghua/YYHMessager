@@ -25,7 +25,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>>
         QueryTransaction.QueryResultListCallback<Data>{
     //和Presenter交互的回调
     private SucceedCallback<List<Data>> callback;
-    private final List<Data> dataList =new LinkedList<>();
+    protected final LinkedList<Data> dataList =new LinkedList<>();
     private Class<Data> dataClass;
 
     public BaseDbRepository(){
@@ -83,6 +83,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>>
     // DbFlow 框架通知的回调
     @Override
     public void onListQueryResult(QueryTransaction transaction, @NonNull List<Data> tResult) {
+        // 如果发现list里面没有数据则说明不需要往下走了
         if (tResult.size()==0){
             dataList.clear();
             notifyDataChange();
@@ -115,7 +116,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>>
         dataList.add(index, data);
     }
     //添加方法 插入或者更新
-    private void insert(Data data){
+    protected void insert(Data data){
         dataList.add(data);
     }
 

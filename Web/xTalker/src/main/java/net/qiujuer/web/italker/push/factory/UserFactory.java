@@ -39,6 +39,11 @@ public class UserFactory {
         return Hib.query(session -> session.get(User.class,id));
     }
 
+    /**
+     * 数据库更新或者新建User用户
+     * @param user User
+     * @return User
+     */
     public static User update(User user){
        return Hib.query(session -> {
             session.saveOrUpdate(user);
@@ -81,7 +86,8 @@ public class UserFactory {
             //那么需要单点登录，让之前的设备退出账户
             // 之前的设备推送一条退出消息给
             if (Strings.isNullOrEmpty(user.getPushid())){
-                // TODO 推送一个退出消息
+                //  推送一个退出消息
+                PushFactory.pushLogout(user,user.getPushid());
             }
             //更新新的设备Id
             user.setPushid(pushId);

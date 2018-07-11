@@ -32,7 +32,7 @@ public class SearchUserPresenter extends
             // 则调用取消请求操作
             call.cancel();
         }
-        searchCall = UserHelper.search(content, this);
+        searchCall = UserHelper.searchFirstOfLocal(content, this);
 
 
     }

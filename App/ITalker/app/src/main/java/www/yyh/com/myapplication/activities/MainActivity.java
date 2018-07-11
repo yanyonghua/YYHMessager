@@ -136,7 +136,7 @@ public class MainActivity extends Activity
         //浮动按钮点击时，判断当前界面是群还是联系人界面
         //如果是群 ，则打开群创建的界面
         if (Objects.equals(mNavHelper.getCurrentTab().extra,R.string.title_group)){
-            // TODO 打开创建界面
+           GroupCreateActivity.show(this);
         }else{
             SearchActivity.show(this,SearchActivity.TYPE_USER);
         }

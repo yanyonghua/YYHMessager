@@ -20,6 +20,7 @@ public interface BaseContract {
         //支持设置一个Presenter
         void setPresenter(T presenter);
     }
+
     //基本的Presenter职责
     interface Presenter{
         //公用的开始触发
@@ -34,7 +35,7 @@ public interface BaseContract {
         // 拿到一个适配器，然后自己自主的进行刷新
         RecyclerAdapter<ViewMode> getRecyclerAdapter();
 
-        //当适配器数据更累的时候触发
+        //当适配器数据更新的时候触发
         void onAdapterDataChanged();
     }
 

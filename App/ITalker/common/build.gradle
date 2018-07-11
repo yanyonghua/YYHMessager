@@ -46,5 +46,10 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
     implementation "net.qiujuer.genius:kit-handler:$rootProject.ext.geniusVersion"
     implementation project(':lang')
-
+    //空气面板
+    implementation "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
+    implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    implementation project(':face-res')
+    // Lame 录音 MP3 转码器
+    implementation "net.qiujuer.lame:lame:$rootProject.ext.lameVersion"
 }

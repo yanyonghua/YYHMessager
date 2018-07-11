@@ -46,6 +46,7 @@ public class EmptyView extends LinearLayout implements PlaceHolderView {
         init(attrs, defStyle);
     }
 
+
     private void init(AttributeSet attrs, int defStyle) {
         inflate(getContext(), R.layout.lay_empty, this);
         mEmptyImg = (ImageView) findViewById(R.id.im_empty);

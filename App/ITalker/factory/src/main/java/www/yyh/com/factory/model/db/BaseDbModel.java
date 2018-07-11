@@ -2,7 +2,7 @@ package www.yyh.com.factory.model.db;
 
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import www.yyh.com.utils.DiffUiDataCallback;
+import www.yyh.com.factory.utils.DiffUiDataCallback;
 
 /**
  *  我们app中基础的一个BaseDbModel

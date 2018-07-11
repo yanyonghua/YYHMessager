@@ -100,7 +100,6 @@ public class Account {
             return !TextUtils.isEmpty(self.getDescription())
                     &&!TextUtils.isEmpty(self.getPortrait())
                     &&self.getSex()!=0;
-
         }
         // TODO
         return false;
