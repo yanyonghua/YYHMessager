@@ -173,6 +173,21 @@ public abstract class ChatFragment<InitModel>
                 Util.hideKeyboard(mContent);
             }
         });
+        mPanelboss.setOnStateChangedListener(new AirPanel.OnStateChangedListener() {
+            @Override
+            public void onPanelStateChanged(boolean isOpen) {
+                //面板改变
+                if (isOpen)
+                onBottomPanelOpened();
+            }
+
+            @Override
+            public void onSoftKeyboardStateChanged(boolean isOpen) {
+                //软件盘改变
+                if (isOpen)
+                    onBottomPanelOpened();
+            }
+        });
         mPanelFragment= (PanelFragment) getChildFragmentManager().findFragmentById(R.id.frag_panel);
         mPanelFragment.setup(this);
         initToolbar();
@@ -195,6 +210,13 @@ public abstract class ChatFragment<InitModel>
         });
     }
 
+    private void onBottomPanelOpened(){
+        //当地不面板或者软键盘打开时触发
+        if (mAppBarLayout!=null){
+            mAppBarLayout.setExpanded(false,true);
+        }
+    }
+
     @Override
     protected final int getContentLayout() {
         return R.layout.fragment_chat_common;
@@ -204,6 +226,16 @@ public abstract class ChatFragment<InitModel>
         super.initData();
         //进行初始化操作
         mPresenter.start();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (mPanelboss.isOpen()){
+            //关闭面板返回true表示自己已经处理了
+            mPanelboss.closePanel();
+            return true;
+        }
+        return super.onBackPressed();
     }
 
     // 初始化Toolbar
