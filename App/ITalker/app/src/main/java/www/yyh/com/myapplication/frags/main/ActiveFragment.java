@@ -133,10 +133,17 @@ implements SessionContract.View{
         protected void onBind(Session session) {
             mPortraitView.setup(Glide.with(ActiveFragment.this),session.getPicture());
             mTextName.setText(session.getTitle());
-            Spannable spannable =new SpannableString(TextUtils.isEmpty(session.getContent())?"":session.getContent());
-            //解析表情
-            Face.decode(mContent,spannable, (int) mContent.getTextSize());
-            mContent.setText(spannable);
+            if (session.getContent().contains("oss-cn-shenzhen.aliyuncs.com/audio")){
+                mContent.setText("[语音]");
+            }else if (session.getContent().contains("oss-cn-shenzhen.aliyuncs.com/image")){
+                mContent.setText("[图片]");
+            }
+           else{
+                Spannable spannable =new SpannableString(TextUtils.isEmpty(session.getContent())?"":session.getContent());
+                //解析表情
+                Face.decode(mContent,spannable, (int) mContent.getTextSize());
+                mContent.setText(spannable);
+            }
             mTime.setText(session.getModifyAt()!=null?DateTimeUtil.getSimpleDate(session.getModifyAt()):"");
         }
     }

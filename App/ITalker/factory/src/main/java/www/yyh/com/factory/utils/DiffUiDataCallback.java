@@ -54,16 +54,4 @@ public class DiffUiDataCallback<T extends DiffUiDataCallback.UiDataDiffer<T>> ex
         //你和旧的数据对比，内容是否相同
         boolean isUiContentSame(T old);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

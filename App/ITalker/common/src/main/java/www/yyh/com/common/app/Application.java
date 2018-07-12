@@ -72,6 +72,7 @@ public class Application extends android.app.Application {
                 Toast.makeText(instance,msg,Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     /**

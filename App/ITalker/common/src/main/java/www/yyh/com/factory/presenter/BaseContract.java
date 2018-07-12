@@ -39,11 +39,4 @@ public interface BaseContract {
         void onAdapterDataChanged();
     }
 
-
-
-
-
-
-
-
 }
