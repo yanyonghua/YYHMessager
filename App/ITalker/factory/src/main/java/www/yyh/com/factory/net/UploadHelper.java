@@ -31,7 +31,7 @@ public class UploadHelper {
 
     private static OSS getClient(){
         // 在移动端建议使用STS的方式初始化OSSClient，更多信息参考：[访问控制]
-        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("",
+        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("AccessKey",
                 "");
 
        return new OSSClient(Factory.app(), ENDPOIT, credentialProvider);
